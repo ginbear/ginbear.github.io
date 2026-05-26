@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ginbear</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fafafa;
+      color: #1a1a1a;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+
+    .avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: #e8e8e8;
+      margin: 0 auto 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: #888;
+      overflow: hidden;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .name {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.375rem;
+    }
+
+    .bio {
+      font-size: 0.875rem;
+      color: #666;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.875rem 1.25rem;
+      background: #fff;
+      border: 1px solid #eaeaea;
+      border-radius: 12px;
+      text-decoration: none;
+      color: #1a1a1a;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .link-card:hover {
+      border-color: #ccc;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      transform: translateY(-1px);
+    }
+
+    .link-card:active {
+      transform: translateY(0);
+    }
+
+    .link-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .link-icon svg {
+      width: 20px;
+      height: 20px;
+      fill: #1a1a1a;
+    }
+
+    .footer {
+      margin-top: 3rem;
+      font-size: 0.75rem;
+      color: #bbb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="avatar">
+      <img src="https://github.com/ginbear.png" alt="ginbear">
+    </div>
+    <h1 class="name">ginbear</h1>
+    <p class="bio">SRE / Infrastructure Engineer</p>
+
+    <div class="links">
+      <a href="https://x.com/ginbear" class="link-card" target="_blank" rel="noopener">
+        <span class="link-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </span>
+        X (Twitter)
+      </a>
+
+      <a href="https://note.com/ginbear" class="link-card" target="_blank" rel="noopener">
+        <span class="link-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14.06 2.297L3.382 12.975a1.28 1.28 0 0 0-.375.907v5.836c0 .71.576 1.285 1.285 1.285h5.836c.34 0 .667-.135.907-.375L21.703 9.94a1.283 1.283 0 0 0 0-1.815l-5.828-5.828a1.283 1.283 0 0 0-1.815 0zM5.578 19.718v-4.55l4.254 4.254H5.874a.296.296 0 0 1-.296-.296v.592zm1.11-5.66l7.372-7.372 4.254 4.254-7.372 7.372-4.254-4.254z"/>
+          </svg>
+        </span>
+        note
+      </a>
+
+      <a href="https://zenn.dev/ginbear" class="link-card" target="_blank" rel="noopener">
+        <span class="link-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M.264 23.771h4.984c.264 0 .498-.147.645-.352L19.614.874c.176-.293-.029-.645-.381-.645h-4.72c-.235 0-.44.117-.557.323L.03 23.361c-.088.176.029.41.234.41zM17.445 23.419l6.479-10.408c.146-.234-.03-.528-.293-.528h-4.72c-.176 0-.352.088-.44.235l-6.655 10.643c-.146.235.029.41.264.41h5.073c.176 0 .352-.088.44-.235l-.148-.117z"/>
+          </svg>
+        </span>
+        Zenn
+      </a>
+    </div>
+
+    <p class="footer">&copy; ginbear</p>
+  </div>
+</body>
+</html>
