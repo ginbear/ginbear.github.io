@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,22 +14,117 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --bg: #fafafa;
+      --bg-card: #fff;
+      --text: #1a1a1a;
+      --text-sub: #666;
+      --border: #eaeaea;
+      --border-hover: #ccc;
+      --shadow: rgba(0, 0, 0, 0.04);
+      --noise-opacity: 0.03;
+    }
+
+    [data-theme="dark"] {
+      --bg: #111;
+      --bg-card: #1a1a1a;
+      --text: #e8e8e8;
+      --text-sub: #999;
+      --border: #2a2a2a;
+      --border-hover: #444;
+      --shadow: rgba(0, 0, 0, 0.2);
+      --noise-opacity: 0.04;
+    }
+
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #fafafa;
-      color: #1a1a1a;
+      background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 2rem 1rem;
       -webkit-font-smoothing: antialiased;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    /* Noise texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: var(--noise-opacity);
+      pointer-events: none;
+      z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
     }
 
     .container {
       width: 100%;
       max-width: 420px;
       text-align: center;
+      position: relative;
+    }
+
+    /* Theme toggle */
+    .theme-toggle {
+      position: fixed;
+      top: 1.25rem;
+      right: 1.25rem;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: var(--bg-card);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 10;
+      opacity: 0;
+      animation: fadeIn 0.6s ease forwards;
+      animation-delay: 0.8s;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--border-hover);
+      transform: rotate(30deg);
+    }
+
+    .theme-toggle svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: var(--text);
+      transition: stroke 0.3s ease;
+    }
+
+    .theme-toggle .icon-moon { display: none; }
+    [data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+    [data-theme="dark"] .theme-toggle .icon-moon { display: block; }
+
+    /* Fade-in animation */
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .avatar {
@@ -44,6 +139,9 @@
       font-size: 2rem;
       color: #888;
       overflow: hidden;
+      opacity: 0;
+      animation: fadeSlideUp 0.6s ease forwards;
+      animation-delay: 0.1s;
     }
 
     .avatar img {
@@ -57,13 +155,20 @@
       font-weight: 600;
       letter-spacing: -0.01em;
       margin-bottom: 0.375rem;
+      opacity: 0;
+      animation: fadeSlideUp 0.6s ease forwards;
+      animation-delay: 0.2s;
     }
 
     .bio {
       font-size: 0.875rem;
-      color: #666;
+      color: var(--text-sub);
       margin-bottom: 2rem;
       line-height: 1.5;
+      opacity: 0;
+      animation: fadeSlideUp 0.6s ease forwards;
+      animation-delay: 0.3s;
+      transition: color 0.4s ease;
     }
 
     .links {
@@ -77,24 +182,71 @@
       align-items: center;
       gap: 0.75rem;
       padding: 0.875rem 1.25rem;
-      background: #fff;
-      border: 1px solid #eaeaea;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
       border-radius: 12px;
       text-decoration: none;
-      color: #1a1a1a;
+      color: var(--text);
       font-size: 0.9375rem;
       font-weight: 500;
-      transition: all 0.2s ease;
+      transition: all 0.3s ease;
+      opacity: 0;
+      animation: fadeSlideUp 0.6s ease forwards;
     }
 
+    .link-card:nth-child(1) { animation-delay: 0.4s; }
+    .link-card:nth-child(2) { animation-delay: 0.5s; }
+    .link-card:nth-child(3) { animation-delay: 0.6s; }
+    .link-card:nth-child(4) { animation-delay: 0.7s; }
+
     .link-card:hover {
-      border-color: #ccc;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-      transform: translateY(-1px);
+      border-color: var(--border-hover);
+      box-shadow: 0 2px 12px var(--shadow);
+      transform: translateY(-2px);
     }
 
     .link-card:active {
       transform: translateY(0);
+    }
+
+    /* Brand color hover effects */
+    .link-card[data-brand="x"]:hover {
+      border-color: #1a1a1a;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+    [data-theme="dark"] .link-card[data-brand="x"]:hover {
+      border-color: #e8e8e8;
+      box-shadow: 0 2px 12px rgba(255, 255, 255, 0.06);
+    }
+    .link-card[data-brand="x"]:hover .link-icon svg {
+      fill: #1a1a1a;
+    }
+    [data-theme="dark"] .link-card[data-brand="x"]:hover .link-icon svg {
+      fill: #e8e8e8;
+    }
+
+    .link-card[data-brand="note"]:hover {
+      border-color: #41c9b4;
+      box-shadow: 0 2px 12px rgba(65, 201, 180, 0.12);
+    }
+    .link-card[data-brand="note"]:hover .link-icon svg {
+      fill: #41c9b4;
+    }
+
+    .link-card[data-brand="zenn"]:hover {
+      border-color: #3ea8ff;
+      box-shadow: 0 2px 12px rgba(62, 168, 255, 0.12);
+    }
+    .link-card[data-brand="zenn"]:hover .link-icon svg {
+      fill: #3ea8ff;
+    }
+
+    .link-card[data-brand="instagram"]:hover {
+      border-color: #e1306c;
+      box-shadow: 0 2px 12px rgba(225, 48, 108, 0.12);
+    }
+    .link-card[data-brand="instagram"]:hover .link-icon svg {
+      fill: url(#instagram-gradient);
     }
 
     .link-icon {
@@ -109,17 +261,32 @@
     .link-icon svg {
       width: 20px;
       height: 20px;
-      fill: #1a1a1a;
+      fill: var(--text);
+      transition: fill 0.3s ease;
     }
 
-    .footer {
-      margin-top: 3rem;
-      font-size: 0.75rem;
-      color: #bbb;
-    }
   </style>
 </head>
 <body>
+  <!-- Instagram gradient definition -->
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <linearGradient id="instagram-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:#feda75"/>
+        <stop offset="25%" style="stop-color:#fa7e1e"/>
+        <stop offset="50%" style="stop-color:#d62976"/>
+        <stop offset="75%" style="stop-color:#962fbf"/>
+        <stop offset="100%" style="stop-color:#4f5bd5"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- Theme toggle -->
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
+
   <div class="container">
     <div class="avatar">
       <img src="https://github.com/ginbear.png" alt="ginbear">
@@ -128,7 +295,7 @@
     <p class="bio">SRE / Infrastructure Engineer</p>
 
     <div class="links">
-      <a href="https://x.com/ginbear" class="link-card" target="_blank" rel="noopener">
+      <a href="https://x.com/ginbear" class="link-card" data-brand="x" target="_blank" rel="noopener">
         <span class="link-icon">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -137,7 +304,7 @@
         X (Twitter)
       </a>
 
-      <a href="https://note.com/ginbear" class="link-card" target="_blank" rel="noopener">
+      <a href="https://note.com/ginbear" class="link-card" data-brand="note" target="_blank" rel="noopener">
         <span class="link-icon">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M14.06 2.297L3.382 12.975a1.28 1.28 0 0 0-.375.907v5.836c0 .71.576 1.285 1.285 1.285h5.836c.34 0 .667-.135.907-.375L21.703 9.94a1.283 1.283 0 0 0 0-1.815l-5.828-5.828a1.283 1.283 0 0 0-1.815 0zM5.578 19.718v-4.55l4.254 4.254H5.874a.296.296 0 0 1-.296-.296v.592zm1.11-5.66l7.372-7.372 4.254 4.254-7.372 7.372-4.254-4.254z"/>
@@ -146,7 +313,7 @@
         note
       </a>
 
-      <a href="https://zenn.dev/ginbear" class="link-card" target="_blank" rel="noopener">
+      <a href="https://zenn.dev/ginbear" class="link-card" data-brand="zenn" target="_blank" rel="noopener">
         <span class="link-icon">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M.264 23.771h4.984c.264 0 .498-.147.645-.352L19.614.874c.176-.293-.029-.645-.381-.645h-4.72c-.235 0-.44.117-.557.323L.03 23.361c-.088.176.029.41.234.41zM17.445 23.419l6.479-10.408c.146-.234-.03-.528-.293-.528h-4.72c-.176 0-.352.088-.44.235l-6.655 10.643c-.146.235.029.41.264.41h5.073c.176 0 .352-.088.44-.235l-.148-.117z"/>
@@ -155,7 +322,7 @@
         Zenn
       </a>
 
-      <a href="https://www.instagram.com/ginbear47" class="link-card" target="_blank" rel="noopener">
+      <a href="https://www.instagram.com/ginbear47" class="link-card" data-brand="instagram" target="_blank" rel="noopener">
         <span class="link-icon">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.97.24 2.43.403a4.088 4.088 0 0 1 1.518.988 4.088 4.088 0 0 1 .988 1.518c.163.46.349 1.26.403 2.43.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.24 1.97-.403 2.43a4.088 4.088 0 0 1-.988 1.518 4.088 4.088 0 0 1-1.518.988c-.46.163-1.26.349-2.43.403-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.97-.24-2.43-.403a4.088 4.088 0 0 1-1.518-.988 4.088 4.088 0 0 1-.988-1.518c-.163-.46-.349-1.26-.403-2.43C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.054-1.17.24-1.97.403-2.43a4.088 4.088 0 0 1 .988-1.518 4.088 4.088 0 0 1 1.518-.988c.46-.163 1.26-.349 2.43-.403C8.416 2.175 8.796 2.163 12 2.163zm0 2.161c-3.148 0-3.501.014-4.738.069-.916.042-1.414.196-1.745.325a2.908 2.908 0 0 0-1.08.703 2.908 2.908 0 0 0-.703 1.08c-.129.331-.283.829-.325 1.745-.055 1.237-.069 1.59-.069 4.738s.014 3.501.069 4.738c.042.916.196 1.414.325 1.745.166.427.39.79.703 1.08.29.313.653.537 1.08.703.331.129.829.283 1.745.325 1.237.055 1.59.069 4.738.069s3.501-.014 4.738-.069c.916-.042 1.414-.196 1.745-.325a2.908 2.908 0 0 0 1.08-.703c.313-.29.537-.653.703-1.08.129-.331.283-.829.325-1.745.055-1.237.069-1.59.069-4.738s-.014-3.501-.069-4.738c-.042-.916-.196-1.414-.325-1.745a2.908 2.908 0 0 0-.703-1.08 2.908 2.908 0 0 0-1.08-.703c-.331-.129-.829-.283-1.745-.325-1.237-.055-1.59-.069-4.738-.069zm0 3.675a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11zm0 2.161a3.339 3.339 0 1 0 0 6.678 3.339 3.339 0 0 0 0-6.678zm5.338-3.205a1.286 1.286 0 1 1 0 2.572 1.286 1.286 0 0 1 0-2.572z"/>
@@ -164,8 +331,23 @@
         Instagram
       </a>
     </div>
-
-    <p class="footer">&copy; ginbear</p>
   </div>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+
+    // Restore saved theme
+    const saved = localStorage.getItem('theme');
+    if (saved) {
+      document.documentElement.setAttribute('data-theme', saved);
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  </script>
 </body>
 </html>
