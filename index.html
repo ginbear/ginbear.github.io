@@ -267,6 +267,92 @@
       transition: fill 0.3s ease;
     }
 
+    /* QR button */
+    .qr-button {
+      margin-top: 2rem;
+      padding: 0.625rem 1.25rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-sub);
+      font-family: inherit;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      opacity: 0;
+      animation: fadeSlideUp 0.6s ease forwards;
+      animation-delay: 0.9s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .qr-button:hover {
+      border-color: var(--border-hover);
+      color: var(--text);
+    }
+
+    .qr-button svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* QR overlay */
+    .qr-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .qr-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .qr-modal {
+      background: #fff;
+      border-radius: 20px;
+      padding: 2.5rem;
+      text-align: center;
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+      max-width: 320px;
+      width: 90%;
+    }
+
+    .qr-overlay.active .qr-modal {
+      transform: scale(1);
+    }
+
+    .qr-modal canvas {
+      border-radius: 8px;
+    }
+
+    .qr-modal p {
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      color: #666;
+      font-family: 'Inter', sans-serif;
+    }
+
   </style>
 </head>
 <body>
@@ -342,14 +428,45 @@
         Instagram
       </a>
     </div>
+
+    <button class="qr-button" onclick="showQR()">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/><rect x="19" y="14" width="2" height="2"/><rect x="14" y="19" width="2" height="2"/><rect x="19" y="19" width="2" height="2"/></svg>
+      QR Code
+    </button>
   </div>
 
+  <!-- QR overlay -->
+  <div class="qr-overlay" id="qrOverlay" onclick="hideQR(event)">
+    <div class="qr-modal">
+      <canvas id="qrCanvas"></canvas>
+      <p>ginbear.com</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
   <script>
     function toggleTheme() {
       const html = document.documentElement;
       const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       html.setAttribute('data-theme', next);
       localStorage.setItem('theme', next);
+    }
+
+    // Generate QR code
+    QRCode.toCanvas(document.getElementById('qrCanvas'), 'https://ginbear.com', {
+      width: 200,
+      margin: 2,
+      color: { dark: '#1a1a1a', light: '#ffffff' }
+    });
+
+    function showQR() {
+      document.getElementById('qrOverlay').classList.add('active');
+    }
+
+    function hideQR(e) {
+      if (e.target === document.getElementById('qrOverlay')) {
+        document.getElementById('qrOverlay').classList.remove('active');
+      }
     }
 
     // Restore saved theme
